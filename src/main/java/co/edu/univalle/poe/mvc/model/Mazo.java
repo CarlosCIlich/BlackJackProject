@@ -31,13 +31,24 @@ public class Mazo {
     }
 
     private void mezclar(){
+
         Collections.shuffle(Arrays.asList(cartas));
     }
 
     public Carta repartirCarta(){
+        if(!hayCartasDisponibles()){
+            //This is just a placeholder.
+            return null;
+        }
+
         Carta cartaSeleccionada = cartas[siguienteCarta];
         siguienteCarta++;
         return cartaSeleccionada;
+    }
+
+    public boolean hayCartasDisponibles(){
+        //mas conciso que un if statement.
+        return siguienteCarta < cartas.length;
     }
 
 }
