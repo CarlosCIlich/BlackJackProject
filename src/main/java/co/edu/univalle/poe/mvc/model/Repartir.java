@@ -20,7 +20,17 @@ public class Repartir {
         return true;
     }
 
-    public LinkedList<Carta> getMano() {
+    public boolean pedirCartaCPU(){
+        Carta carta = mazo.repartirCarta();
+         manoCPU.add(carta);
+         return true;
+    }
+
+    public LinkedList<Carta> getManoUser() {
         return manoUser;
+    }
+
+    public LinkedList<Carta> getManoCPU() {
+        return manoCPU;
     }
 }
