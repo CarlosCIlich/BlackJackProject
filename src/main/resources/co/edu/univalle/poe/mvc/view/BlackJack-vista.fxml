@@ -12,7 +12,9 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.layout.StackPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.6"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.univalle.poe.mvc.controller.BlackJackController">
    <children>
       <VBox prefHeight="768.0" prefWidth="1024.0">
          <children>
@@ -38,7 +40,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label style="-fx-text-fill:#CAAF6C" text="1000">
+                        <Label fx:id="lblFichas" style="-fx-text-fill:#CAAF6C" text="1000">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -52,7 +54,7 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to bottom, #9C0000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"  text="CERRAR">
+                        <Button fx:id="btnCerrar" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to bottom, #9C0000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"  text="CERRAR" onAction="#onCerrarJuego">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -84,7 +86,7 @@
                            <children>
                               <StackPane prefHeight="95.0" prefWidth="65.0" style="-fx-background-color: #0A1E13; -fx-background-radius: 6px; -fx-border-color: #1A472A; -fx-border-radius: 6px;" />
                               <StackPane prefHeight="95.0" prefWidth="65.0" style="-fx-background-color: #0A1E13; -fx-background-radius: 6px; -fx-border-color: #1A472A; -fx-border-radius: 6px;" />
-                              </children>
+                           </children>
                         </HBox>
                      </children>
                   </HBox>
@@ -111,8 +113,8 @@
                               <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                            </padding>
                            <children>
-                              <Label style="-fx-text-fill: #D7B868; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold;" text="BIENVENIDO A 21 BLACKJACK" />
-                              <Label style="-fx-text-fill: white;" text="Ingresa una apuesta válida (múltiplo de 10, mínimo 10 fichas) y presiona «Iniciar ronda»." textAlignment="CENTER" wrapText="true" />
+                              <Label fx:id="lblmsgUsuario1" style="-fx-text-fill: #D7B868; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold;" text="BIENVENIDO A 21 BLACKJACK" />
+                              <Label fx:id="lblmsgUsuario2" style="-fx-text-fill: white;" text="Ingresa una apuesta válida (múltiplo de 10, mínimo 10 fichas) y presiona «Iniciar ronda»." textAlignment="CENTER" wrapText="true" />
                            </children>
                         </VBox>
                      </children>
@@ -132,7 +134,7 @@
                               <VBox alignment="CENTER_LEFT" spacing="5.0">
                                  <children>
                                     <Label style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold; -fx-font-size: 16px;" text="TUS CARTAS" />
-                                    <Label style="-fx-text-fill: #D7B868; -fx-font-size: 14px;" text="Tu Puntaje: 0" />
+                                    <Label fx:id="lblPuntajeUsuario" style="-fx-text-fill: #D7B868; -fx-font-size: 14px;" text="Tu Puntaje: 0" />
                                  </children>
                               </VBox>
 
@@ -148,7 +150,7 @@
                         </HBox>
                         <!-- hasta aca es TUS CARTAS !-->
 
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                        <HBox fx:id="hboxCartasJugador" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label style="-fx-text-fill: white; -fx-font-family: Segoe UI; -fx-font-weight: bold;" text="Esperando Inicio de ronda (sin cartas)" />
                            </children>
@@ -171,7 +173,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <TextField prefWidth="100.0" promptText="EJ: 100" />
+                  <TextField fx:id="txtFieldApuesta" prefWidth="100.0" promptText="EJ: 100" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Button style="-fx-background-color: linear-gradient(to bottom, #2e8b50, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Plantarse">
@@ -184,7 +186,7 @@
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button style="-fx-background-color: linear-gradient(to bottom, #2B6557, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Iniciar ronda">
+                        <Button fx:id="btnIniciarRonda" style="-fx-background-color: linear-gradient(to bottom, #2B6557, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Iniciar ronda" onAction="#onIniciarRonda">
                            <font>
                               <Font size="18.0" />
                            </font>

@@ -22,8 +22,13 @@ public class Repartir {
 
     public boolean pedirCartaCPU(){
         Carta carta = mazo.repartirCarta();
-         manoCPU.add(carta);
-         return true;
+        manoCPU.add(carta);
+        return true;
+    }
+
+    public void nuevoMazo(){
+        manoUser.clear();
+        manoCPU.clear();
     }
 
     public LinkedList<Carta> getManoUser() {
@@ -33,4 +38,42 @@ public class Repartir {
     public LinkedList<Carta> getManoCPU() {
         return manoCPU;
     }
+
+    public int calcularPuntaje(LinkedList<Carta> cartas){
+
+        int puntaje = 0;
+        int cantidadAses = 0;
+
+        for (Carta carta: cartas){
+            String valor = carta.getValor();
+            switch (valor){
+                case "As":
+                    puntaje += 11;
+                    cantidadAses++;
+                    break;
+                case "J":
+                    puntaje += 10;
+                    break;
+                case "K":
+                    puntaje += 10;
+                    break;
+                case "Q":
+                    puntaje += 10;
+                    break;
+                default:
+                    int auxPuntaje = Integer.parseInt(valor);
+                    puntaje += auxPuntaje;
+                    break;
+            }
+        }
+
+        while (puntaje > 21 && cantidadAses > 0){
+            puntaje -= 10;
+            cantidadAses--;
+        }
+
+        return puntaje;
+
+    }
+
 }

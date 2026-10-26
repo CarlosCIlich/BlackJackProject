@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>co.edu.univalle.poe.mvc/co.edu.univalle.poe.mvc.HelloApplication</mainClass>
+                            <mainClass>co.edu.univalle.poe.mvc/co.edu.univalle.poe.mvc.BlackJackApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
