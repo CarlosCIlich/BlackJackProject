@@ -8,13 +8,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.StackPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.6"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.univalle.poe.mvc.controller.BlackJackController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.univalle.poe.mvc.controller.BlackJackController">
    <children>
       <VBox prefHeight="768.0" prefWidth="1024.0">
          <children>
@@ -33,7 +31,7 @@
                         <Label alignment="CENTER" prefHeight="30.0" prefWidth="143.0" style="-fx-text-fill:white" text="El clásico juego del 21" textAlignment="CENTER" />
                      </children>
                   </VBox>
-                  <VBox style="-fx-background-color: #121B18; -fx-background-radius: 8px;" alignment="CENTER" maxHeight="65.0" maxWidth="260.0" prefHeight="65.0" prefWidth="260.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER" maxHeight="65.0" maxWidth="260.0" prefHeight="65.0" prefWidth="260.0" style="-fx-background-color: #121B18; -fx-background-radius: 8px;" HBox.hgrow="ALWAYS">
                      <children>
                         <Label style="-fx-text-fill:white;-fx-font-family: Segoe UI; -fx-font-weight: bold;" text="FICHAS DISPONIBLES:">
                            <font>
@@ -47,14 +45,14 @@
                         </Label>
                      </children>
                   </VBox>
-                  <HBox  alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to bottom, #27965B, #1D7044); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" text="AYUDA">>
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnCerrar" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to bottom, #9C0000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"  text="CERRAR" onAction="#onCerrarJuego">
+                        <Button fx:id="btnCerrar" mnemonicParsing="false" onAction="#onCerrarJuego" style="-fx-background-color: linear-gradient(to bottom, #9C0000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" text="CERRAR">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -63,29 +61,35 @@
                   </HBox>
                </children>
             </HBox>
-            <VBox style="-fx-background-color:radial-gradient( center 50% 50%, radius 80%, #2e8b50, #0d4822); " prefHeight="469.0" prefWidth="1024.0" spacing="12.0">
+            <VBox prefHeight="469.0" prefWidth="1024.0" spacing="12.0" style="-fx-background-color:radial-gradient( center 50% 50%, radius 80%, #2e8b50, #0d4822); ">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
                <children>
-
-                  <!-- desde aca es CPU !-->
-                  <HBox alignment="CENTER_LEFT" maxWidth="380.0" prefHeight="130.0" prefWidth="380.0" spacing="12.0" style="-fx-background-color: #143520; -fx-background-radius: 12px; -fx-border-color: #D7B868; -fx-border-width: 2px;">
-                     <padding>
-                        <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
-                     </padding>
+                  <HBox prefHeight="130.0" prefWidth="994.0" spacing="15.0">
                      <children>
-                        <!-- Texto alineado a la izquierda igual que el del jugador -->
-                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                        <HBox alignment="CENTER_LEFT" maxWidth="380.0" prefHeight="130.0" prefWidth="380.0" spacing="12.0" style="-fx-background-color: #143520; -fx-background-radius: 12px; -fx-border-color: #D7B868; -fx-border-width: 2px;">
+                           <padding>
+                              <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                           </padding>
                            <children>
-                              <Label style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold; -fx-font-size: 16px;" text="CARTAS DE LA CPU" />
-                              <Label style="-fx-text-fill: #D7B868; -fx-font-size: 14px;" text="Puntaje CPU: 0" />
+                              <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                 <children>
+                                    <Label style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold; -fx-font-size: 16px;" text="CARTAS DE LA CPU" />
+                                    <Label fx:id="lblpuntajeCPU" style="-fx-text-fill: #D7B868; -fx-font-size: 14px;" text="Puntaje CPU: 0" />
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="contenedorCPU1" alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <StackPane prefHeight="95.0" prefWidth="65.0" style="-fx-background-color: #0A1E13; -fx-background-radius: 6px; -fx-border-color: #1A472A; -fx-border-radius: 6px;" />
+                                    <StackPane prefHeight="95.0" prefWidth="65.0" style="-fx-background-color: #0A1E13; -fx-background-radius: 6px; -fx-border-color: #1A472A; -fx-border-radius: 6px;" />
+                                 </children>
+                              </HBox>
                            </children>
-                        </VBox>
-                        <HBox fx:id="contenedorCPU" alignment="CENTER_LEFT" spacing="10.0">
+                        </HBox>
+                        <HBox fx:id="hboxCartasCPU" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <StackPane prefHeight="95.0" prefWidth="65.0" style="-fx-background-color: #0A1E13; -fx-background-radius: 6px; -fx-border-color: #1A472A; -fx-border-radius: 6px;" />
-                              <StackPane prefHeight="95.0" prefWidth="65.0" style="-fx-background-color: #0A1E13; -fx-background-radius: 6px; -fx-border-color: #1A472A; -fx-border-radius: 6px;" />
+                              <Label style="-fx-text-fill: white; -fx-font-family: Segoe UI; -fx-font-weight: bold;" text="Esperando Inicio de ronda (sin cartas)" />
                            </children>
                         </HBox>
                      </children>
@@ -159,7 +163,7 @@
                   </HBox>
                </children>
             </VBox>
-            <HBox style="-fx-background-color:#1C2B26" alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="1024.0" spacing="15.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="1024.0" spacing="15.0" style="-fx-background-color:#1C2B26">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
@@ -176,17 +180,17 @@
                   <TextField fx:id="txtFieldApuesta" prefWidth="100.0" promptText="EJ: 100" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button style="-fx-background-color: linear-gradient(to bottom, #2e8b50, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Plantarse">
+                        <Button fx:id="btnPlantarse" mnemonicParsing="false" onAction="#onPlantarse" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to bottom, #2e8b50, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" text="Plantarse">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button style="-fx-background-color: linear-gradient(to bottom, #346C9F, #2D547F); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Pedir carta">
+                        <Button fx:id="btnPedirCarta" mnemonicParsing="false" onAction="#onPedirCarta" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to bottom, #346C9F, #2D547F); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" text="Pedir carta">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnIniciarRonda" style="-fx-background-color: linear-gradient(to bottom, #2B6557, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Iniciar ronda" onAction="#onIniciarRonda">
+                        <Button fx:id="btnIniciarRonda" mnemonicParsing="false" onAction="#onIniciarRonda" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to bottom, #2B6557, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" text="Iniciar ronda">
                            <font>
                               <Font size="18.0" />
                            </font>

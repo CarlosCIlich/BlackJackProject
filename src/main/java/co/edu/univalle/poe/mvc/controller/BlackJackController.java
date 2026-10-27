@@ -1,8 +1,6 @@
 package co.edu.univalle.poe.mvc.controller;
 
-import co.edu.univalle.poe.mvc.model.Carta;
-import co.edu.univalle.poe.mvc.model.GestorApuesta;
-import co.edu.univalle.poe.mvc.model.Repartir;
+import co.edu.univalle.poe.mvc.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -11,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.util.LinkedList;
 import java.util.Optional;
 
 public class BlackJackController {
@@ -30,15 +29,26 @@ public class BlackJackController {
     private Label lblFichas;
     @FXML
     private HBox hboxCartasJugador;
+    @FXML
+    private Button btnPedirCarta;
+    @FXML
+    private Button btnPlantarse;
+    @FXML
+    private Label lblpuntajeCPU;
+    @FXML
+    private HBox hboxCartasCPU;
 
 
     private Repartir repartir;
     private GestorApuesta gestorApuesta;
+    private EstadoJuego estadoJuego;
+    private ResultadoRonda resultadoRonda;
 
     @FXML
     private void initialize(){
         repartir = new Repartir();
         gestorApuesta = new GestorApuesta();
+        cambiarEstado(EstadoJuego.ESPERANDO_APUESTA);
     }
 
     @FXML
@@ -59,6 +69,9 @@ public class BlackJackController {
             return;
         }
 
+        //deshabilitamos el boton para iniciar ronda y creamos un mazo para el usuario.
+        btnIniciarRonda.setDisable(true);
+
         repartir.nuevoMazo();
         repartir.pedirCarta();
         repartir.pedirCarta();
@@ -67,7 +80,135 @@ public class BlackJackController {
 
         lblPuntajeUsuario.setText("Tu Puntaje: " + puntaje);
         lblFichas.setText("" + gestorApuesta.getFichas());
-        mostrarCartas();
+        mostrarCartas(hboxCartasJugador, repartir.getManoUser());
+
+        cambiarEstado(EstadoJuego.TURNO_JUGADOR);
+        //Revisar.
+        revisarJugada();
+
+    }
+
+    @FXML
+    private void onPedirCarta(){
+        repartir.pedirCarta();
+        int puntaje = repartir.calcularPuntaje(repartir.getManoUser());
+
+        lblPuntajeUsuario.setText("Tu Puntaje: " + puntaje);
+        mostrarCartas(hboxCartasJugador, repartir.getManoUser());
+
+        revisarJugada();
+
+    }
+
+    @FXML
+    private void onPlantarse(){
+        cambiarEstado(EstadoJuego.TURNO_CPU);
+        mostrarMensaje("Turno de la CPU", "Esperando...");
+        turnoCPU();
+    }
+
+    private void cambiarEstado(EstadoJuego nuevoestado){
+        estadoJuego = nuevoestado;
+
+        switch (estadoJuego){
+            case TURNO_CPU:
+                txtFieldApuesta.setDisable(true);
+                btnPlantarse.setDisable(true);
+                btnPedirCarta.setDisable(true);
+                btnIniciarRonda.setDisable(true);
+                break;
+            case ESPERANDO_APUESTA:
+                txtFieldApuesta.setDisable(false);
+                btnPlantarse.setDisable(true);
+                btnPedirCarta.setDisable(true);
+                btnIniciarRonda.setDisable(false);
+                break;
+            case SIN_FICHAS:
+                txtFieldApuesta.setDisable(true);
+                btnPlantarse.setDisable(true);
+                btnPedirCarta.setDisable(true);
+                btnIniciarRonda.setDisable(true);
+                break;
+            case TURNO_JUGADOR:
+                txtFieldApuesta.setDisable(true);
+                btnIniciarRonda.setDisable(true);
+                btnPedirCarta.setDisable(false);
+                btnPlantarse.setDisable(false);
+                break;
+        }
+    }
+
+    private void revisarJugada(){
+        int puntaje = repartir.calcularPuntaje(repartir.getManoUser());
+
+        if(puntaje > 21) {
+            int apuestaPerdida = gestorApuesta.getApuesta();
+
+            finalizarRonda(ResultadoRonda.PERDIDA, "Te pasaste de 21!", "Perdiste tu apuesta de " + apuestaPerdida + " fichas. Puedes volver a inicar una apuesta.");
+
+        } else if (puntaje == 21) {
+            mostrarMensaje("Haz llegado a 21!", "Esperando el turno de la CPU");
+            onPlantarse();
+        }
+
+    }
+
+    private void finalizarRonda(ResultadoRonda resultado, String titulo, String subtitulo){
+
+        resultadoRonda = resultado;
+        gestorApuesta.entregarGanancias(resultado);
+        lblFichas.setText("" + gestorApuesta.getFichas());
+
+        if(gestorApuesta.getFichas() <= 0){
+            cambiarEstado(EstadoJuego.SIN_FICHAS);
+            mostrarMensaje("Juego Terminado", "Te has quedado sin fichas para apostar.");
+        } else {
+            cambiarEstado(EstadoJuego.ESPERANDO_APUESTA);
+            mostrarMensaje(titulo, subtitulo);
+        }
+
+    }
+
+    private void turnoCPU(){
+        //La CPU pide cartas mientras no se cumpla la condicion:
+        while (repartir.calcularPuntaje(repartir.getManoCPU()) < 17){
+            repartir.pedirCartaCPU();
+        }
+        // Calculamos los puntajes de la CPU y del usuario
+        int puntajeCPU = repartir.calcularPuntaje(repartir.getManoCPU());
+        int puntajeUser = repartir.calcularPuntaje(repartir.getManoUser());
+
+        lblpuntajeCPU.setText("Puntaje CPU: " + puntajeCPU);
+        mostrarCartas(hboxCartasCPU, repartir.getManoCPU());
+
+        //evaluamos al ganador
+        evaluarGanador(puntajeUser, puntajeCPU);
+
+    }
+
+    private void evaluarGanador(int puntajeUser, int puntajeCPU){
+        int apuesta = gestorApuesta.getApuesta();
+
+        if(puntajeCPU > 21){
+            if(puntajeUser == 21 && repartir.getManoUser().size() == 2){
+                finalizarRonda(ResultadoRonda.GANADA_BLACKJACK, "BLACKJACK! La CPU se pasó de 21.", "Ganaste 2.5 sobre tu apuesta de " + apuesta + " fichas.");
+            } else {
+                finalizarRonda(ResultadoRonda.GANADA_ORDINARIA, "Has ganado!", "La CPU se paso de 21. Ganaste el doble de tu apuesta en fichas.");
+            }
+        } else if (puntajeUser > puntajeCPU) {
+            if(puntajeUser == 21 && repartir.getManoUser().size() == 2) {
+                finalizarRonda(ResultadoRonda.GANADA_BLACKJACK, "BLACKJACK!", "Ganaste 2.5 sobre tu apuesta de " + apuesta + " fichas.");
+            } else {
+                finalizarRonda(ResultadoRonda.GANADA_ORDINARIA, "Has ganado!", "Ganaste el doble de tu apuesta en fichas.");
+            }
+
+        } else if (puntajeCPU > puntajeUser) {
+            finalizarRonda(ResultadoRonda.PERDIDA, "Has perdido", "La CPU gana con " + puntajeCPU);
+
+        } else {
+            finalizarRonda(ResultadoRonda.EMPATE, "Empate!", "Se te han devuelto tus " + apuesta + " fichas.");
+        }
+
     }
 
     public void mostrarMensaje(String auxString1, String auxString2){
@@ -87,13 +228,15 @@ public class BlackJackController {
         return imageView;
     }
 
-    public void mostrarCartas(){
+    public void mostrarCartas(HBox auxHbox, LinkedList<Carta> cartas){
 
-        hboxCartasJugador.getChildren().clear();
+        HBox hbox = auxHbox;
 
-        for(Carta carta: repartir.getManoUser()) {
+        auxHbox.getChildren().clear();
+
+        for(Carta carta: cartas) {
             ImageView imgCarta = crearImagenCarta(carta);
-            hboxCartasJugador.getChildren().add(imgCarta);
+            auxHbox.getChildren().add(imgCarta);
         }
     }
 
