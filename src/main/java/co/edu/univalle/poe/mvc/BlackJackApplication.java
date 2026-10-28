@@ -19,6 +19,7 @@ public class BlackJackApplication extends Application {
         BlackJackController controlador = fxmlLoader.getController();
         stage.setTitle("BlackJack Game");
         stage.setScene(scene);
+        stage.setResizable(false);
 
         // Revisamos si el usuario cancela el cierre, en cuyo caso se cancela el evento.
         stage.setOnCloseRequest( evento -> {

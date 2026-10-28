@@ -188,6 +188,7 @@ public class BlackJackController {
 
     private void evaluarGanador(int puntajeUser, int puntajeCPU){
         int apuesta = gestorApuesta.getApuesta();
+        //Caso BlackJack CPU faltante
 
         if(puntajeCPU > 21){
             if(puntajeUser == 21 && repartir.getManoUser().size() == 2){

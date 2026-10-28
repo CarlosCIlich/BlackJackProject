@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.univalle.poe.mvc.controller.BlackJackController">
    <children>
-      <VBox prefHeight="768.0" prefWidth="1024.0">
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="1024.0" spacing="15.0" style="-fx-background-color: #1D2C27; -fx-border-color: transparent transparent #E0BB62 transparent; -fx-border-width: 0 0 2px 0;">
                <padding>
