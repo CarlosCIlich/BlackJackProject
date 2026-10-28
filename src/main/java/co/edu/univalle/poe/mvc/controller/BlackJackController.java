@@ -24,6 +24,8 @@ public class BlackJackController {
     @FXML
     private Label lblPuntajeUsuario;
     @FXML
+    private Label lblEstadoCartasJugador;
+    @FXML
     private Button btnIniciarRonda;
     @FXML
     private Label lblFichas;
@@ -37,18 +39,69 @@ public class BlackJackController {
     private Label lblpuntajeCPU;
     @FXML
     private HBox hboxCartasCPU;
-
+    @FXML
+    private Button btnAyuda;
 
     private Repartir repartir;
     private GestorApuesta gestorApuesta;
     private EstadoJuego estadoJuego;
     private ResultadoRonda resultadoRonda;
 
+
     @FXML
     private void initialize(){
         repartir = new Repartir();
         gestorApuesta = new GestorApuesta();
         cambiarEstado(EstadoJuego.ESPERANDO_APUESTA);
+
+        btnIniciarRonda.setOnMouseEntered(event -> {
+            btnIniciarRonda.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #3C8C79, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
+        });
+
+        btnIniciarRonda.setOnMouseExited(event -> {
+            btnIniciarRonda.setStyle("-fx-background-color: linear-gradient(to bottom, #2B6557, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+        });
+
+        btnPlantarse.setOnMouseEntered(event -> {
+            btnPlantarse.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #3CB568, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
+        });
+
+        btnPlantarse.setOnMouseExited(event -> {
+            btnPlantarse.setStyle("-fx-background-color: linear-gradient(to bottom, #2e8b50, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+        });
+
+        btnPedirCarta.setOnMouseEntered(event -> {
+            btnPedirCarta.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #4895DB, #2D547F); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
+        });
+
+        btnPedirCarta.setOnMouseExited(event -> {
+            btnPedirCarta.setStyle("-fx-background-color: linear-gradient(to bottom, #346C9F, #2D547F); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+        });
+
+        btnAyuda.setOnMouseEntered(event -> {
+            btnAyuda.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #36CF7D, #1D7044); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
+        });
+        btnAyuda.setOnMouseExited(event -> {
+            btnAyuda.setStyle("-fx-background-color: linear-gradient(to bottom, #27965B, #1D7044); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+        });
+
+        btnCerrar.setOnMouseEntered(event -> {
+            btnCerrar.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #D60000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
+        });
+
+        btnCerrar.setOnMouseExited(event -> {
+            btnCerrar.setStyle("-fx-background-color: linear-gradient(to bottom, #9C0000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+        });
     }
 
     @FXML
@@ -78,7 +131,8 @@ public class BlackJackController {
 
         int puntaje = repartir.calcularPuntaje(repartir.getManoUser());
 
-        lblPuntajeUsuario.setText("Tu Puntaje: " + puntaje);
+        lblPuntajeUsuario.setText("" + puntaje);
+        lblEstadoCartasJugador.setText("" );
         lblFichas.setText("" + gestorApuesta.getFichas());
         mostrarCartas(hboxCartasJugador, repartir.getManoUser());
 
@@ -93,7 +147,7 @@ public class BlackJackController {
         repartir.pedirCarta();
         int puntaje = repartir.calcularPuntaje(repartir.getManoUser());
 
-        lblPuntajeUsuario.setText("Tu Puntaje: " + puntaje);
+        lblPuntajeUsuario.setText("" + puntaje);
         mostrarCartas(hboxCartasJugador, repartir.getManoUser());
 
         revisarJugada();
@@ -178,7 +232,7 @@ public class BlackJackController {
         int puntajeCPU = repartir.calcularPuntaje(repartir.getManoCPU());
         int puntajeUser = repartir.calcularPuntaje(repartir.getManoUser());
 
-        lblpuntajeCPU.setText("Puntaje CPU: " + puntajeCPU);
+        lblpuntajeCPU.setText("" + puntajeCPU);
         mostrarCartas(hboxCartasCPU, repartir.getManoCPU());
 
         //evaluamos al ganador
