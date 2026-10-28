@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.univalle.poe.mvc.controller.BlackJackController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.univalle.poe.mvc.controller.BlackJackController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -61,7 +61,7 @@
                   </HBox>
                </children>
             </HBox>
-            <VBox prefHeight="469.0" prefWidth="1024.0" spacing="12.0" style="-fx-background-color:radial-gradient( center 50% 50%, radius 80%, #2e8b50, #0d4822); ">
+            <VBox VBox.vgrow="ALWAYS" prefHeight="469.0" prefWidth="1024.0" spacing="12.0" style="-fx-background-color:radial-gradient( center 50% 50%, radius 80%, #2e8b50, #0d4822); ">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
