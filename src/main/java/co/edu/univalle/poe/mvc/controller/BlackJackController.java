@@ -267,7 +267,9 @@ public class BlackJackController {
         alerta.setTitle("Cerrar BlackJack");
         alerta.setHeaderText("Realmente desea salir del juego?");
         alerta.setContentText("Si sales ahora, la partida terminara.");
-
+        Stage alertStage = (Stage) alerta.getDialogPane().getScene().getWindow();
+        Image icono = new Image(getClass().getResourceAsStream("/co/edu/univalle/poe/mvc/images/icons/Imagen1.png"));
+        alertStage.getIcons().add(icono);
         alerta.getButtonTypes().setAll(btnSalir, btnCancelar);
 
         // Identificamos el boton seleccionado
