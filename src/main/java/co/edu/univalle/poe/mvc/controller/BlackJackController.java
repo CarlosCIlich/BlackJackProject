@@ -164,6 +164,7 @@ public class BlackJackController {
         lblEstadoCartasJugador.setText("" );
         lblFichas.setText("" + gestorApuesta.getFichas());
         mostrarCartas(hboxCartasJugador, repartir.getManoUser());
+        mostrarMensaje("Jugando", "...");
 
         cambiarEstado(EstadoJuego.TURNO_JUGADOR);
         //Revisar.
