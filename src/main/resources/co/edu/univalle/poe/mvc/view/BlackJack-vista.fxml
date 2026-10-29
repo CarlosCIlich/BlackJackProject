@@ -108,7 +108,7 @@
                                     <Image url="@../images/cards/Cards.png" />
                                  </image>
                               </ImageView>
-                              <Label style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold;" text="Mazo: 52/52 cartas" />
+                              <Label style="-fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold;" text="Mazo" />
                            </children>
                         </VBox>
 
