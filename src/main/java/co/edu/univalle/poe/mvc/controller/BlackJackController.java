@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -33,6 +34,8 @@ public class BlackJackController {
     private Label lblPuntajeUsuario;
     @FXML
     private Label lblEstadoCartasJugador;
+    @FXML
+    private Label lblEstadoCartasCPU;
     @FXML
     private Button btnIniciarRonda;
     @FXML
@@ -214,6 +217,7 @@ public class BlackJackController {
 
         lblPuntajeUsuario.setText("" + puntaje);
         lblEstadoCartasJugador.setText("" );
+        lblEstadoCartasCPU.setText("" );
         lblFichas.setText("" + gestorApuesta.getFichas());
         mostrarCartas(hboxCartasJugador, repartir.getManoUser());
         mostrarMensaje("Jugando", "...");
@@ -483,6 +487,25 @@ public class BlackJackController {
 
         imageView.setFitHeight(130);
         imageView.setPreserveRatio(true);
+
+
+        String mensaje = "";
+
+        if (nombreArchivo.startsWith("J")) {
+            mensaje = "10 puntos";
+        } else if (nombreArchivo.startsWith("Q")) {
+            mensaje = "10 puntos";
+        } else if (nombreArchivo.startsWith("K")) {
+            mensaje = "10 puntos";
+        } else if (nombreArchivo.startsWith("A")) {
+            mensaje = "vale 1 u 11 puntos";
+        }
+
+        if (!mensaje.isEmpty()) {
+            Tooltip tooltip = new Tooltip(mensaje);
+            tooltip.setShowDelay(Duration.millis(200));
+            Tooltip.install(imageView, tooltip);
+        }
         return imageView;
     }
 
@@ -561,6 +584,6 @@ public class BlackJackController {
         );
         auxHbox.getChildren().add(lblNuevoTexto);
 
-        lblPuntaje.setText("Puntaje: --");
+        lblPuntaje.setText("--");
     }
 }
