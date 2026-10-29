@@ -488,6 +488,13 @@ public class BlackJackController {
         imageView.setFitHeight(130);
         imageView.setPreserveRatio(true);
 
+        imageView.setOnMouseEntered(event -> {
+            imageView.setFitHeight(140);
+        });
+
+        imageView.setOnMouseExited(event -> {
+            imageView.setFitHeight(130);
+        });
 
         String mensaje = "";
 
