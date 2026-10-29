@@ -193,7 +193,7 @@ public class BlackJackController {
         // Validamos que el usuario ingrese un numero.
         int apuesta;
         try{
-            apuesta = Integer.parseInt(txtFieldApuesta.getText());
+            apuesta = Integer.parseInt(txtFieldApuesta.getText().trim());
         } catch (NumberFormatException e){
             mostrarMensaje("Entrada Invalida!", "Por favor ingrese un numero entero mayor a 0.");
             return;
@@ -506,6 +506,8 @@ public class BlackJackController {
             mensaje = "10 puntos";
         } else if (nombreArchivo.startsWith("A")) {
             mensaje = "vale 1 u 11 puntos";
+        } else {
+            mensaje = carta.getValor() + " puntos";
         }
 
         if (!mensaje.isEmpty()) {
