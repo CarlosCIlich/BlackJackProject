@@ -28,4 +28,8 @@ public class Carta {
         return (valor.equals("J") || valor.equals("K") || valor.equals("Q"));
     }
 
+    public boolean isCuatro(){
+        return valor.equals("4");
+    }
+
 }

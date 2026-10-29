@@ -16,7 +16,6 @@ public class Repartir {
     public boolean pedirCarta(){
         Carta carta = mazo.repartirCarta();
         manoUser.add(carta);
-
         return true;
     }
 
@@ -27,6 +26,7 @@ public class Repartir {
     }
 
     public void nuevoMazo(){
+        mazo = new Mazo();
         manoUser.clear();
         manoCPU.clear();
     }

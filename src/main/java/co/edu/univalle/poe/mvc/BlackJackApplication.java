@@ -22,7 +22,7 @@ public class BlackJackApplication extends Application {
         Image icono = new Image(getClass().getResourceAsStream("/co/edu/univalle/poe/mvc/images/icons/Imagen1.png"));
         stage.getIcons().add(icono);
         stage.setScene(scene);
-        //stage.setResizable(false);
+        stage.setResizable(false);
 
 
         // Revisamos si el usuario cancela el cierre, en cuyo caso se cancela el evento.
