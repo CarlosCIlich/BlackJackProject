@@ -155,6 +155,8 @@ public class BlackJackController {
             ventanaAyuda.getIcons().add(iconohelp);
             ventanaAyuda.setScene(new Scene(root));
             ventanaAyuda.setResizable(false);
+            Stage ventanaPrincipal = obtenerVentana();
+            ventanaAyuda.initOwner(ventanaPrincipal);
             ventanaAyuda.show();
 
         } catch (Exception e) {

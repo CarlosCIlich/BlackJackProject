@@ -25,7 +25,7 @@ public class Carta {
     }
 
     public boolean isFigura(){
-        return (valor.equals("J") || valor.equals("K"));
+        return (valor.equals("J") || valor.equals("K") || valor.equals("Q"));
     }
 
 }
