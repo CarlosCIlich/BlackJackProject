@@ -196,7 +196,7 @@
                         </Button>
                         <Button fx:id="btnSonido" onAction="#onAlternarSonido" mnemonicParsing="false" prefHeight="30.0" prefWidth="35.0" style="-fx-background-color:transparent; -fx-cursor: hand;">
                            <graphic>
-                              <ImageView fx:id="imgSonido"
+                              <ImageView fx:id="botonSonido"
                                          fitHeight="25.0"
                                          fitWidth="25.0"
                                          preserveRatio="true">

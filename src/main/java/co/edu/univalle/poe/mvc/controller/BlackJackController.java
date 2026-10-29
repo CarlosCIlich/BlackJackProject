@@ -49,6 +49,8 @@ public class BlackJackController {
     private HBox hboxCartasCPU;
     @FXML
     private Button btnAyuda;
+    @FXML
+    private ImageView botonSonido;
 
     private Repartir repartir;
     private GestorApuesta gestorApuesta;
@@ -64,7 +66,24 @@ public class BlackJackController {
         reproductor.seek(Duration.ZERO);
         reproductor.play();
     }
+    @FXML
+    private void onAlternarSonido() {
+        boolean estaSilenciado = musicPlayer.isMute();
+        musicPlayer.setMute(!estaSilenciado);
+        String urlImagen;
 
+        if (estaSilenciado) {
+            urlImagen = "/co/edu/univalle/poe/mvc/images/icons/song.png";
+        } else {
+            urlImagen = "/co/edu/univalle/poe/mvc/images/icons/muted.png";
+        }
+
+        Image imagen = new Image(
+                getClass().getResourceAsStream(urlImagen)
+        );
+
+        botonSonido.setImage(imagen);
+    }
     @FXML
     private void initialize(){
         URL musicURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/Casino Background Music.mp3");
