@@ -11,11 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
-
+import java.util.function.UnaryOperator;
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -158,6 +159,12 @@ public class BlackJackController {
 
         btnCerrar.setOnMouseExited(event -> {
             btnCerrar.setStyle("-fx-background-color: linear-gradient(to bottom, #9C0000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+        });
+
+        txtFieldApuesta.textProperty().addListener((obs, oldText, newText) -> {
+            if (!newText.matches("[0-9]*")) {
+                txtFieldApuesta.setText(newText.replaceAll("[^0-9]", ""));
+            }
         });
     }
 
@@ -489,11 +496,13 @@ public class BlackJackController {
         imageView.setPreserveRatio(true);
 
         imageView.setOnMouseEntered(event -> {
-            imageView.setFitHeight(140);
+            imageView.setScaleX(1.08);
+            imageView.setScaleY(1.08);
         });
 
         imageView.setOnMouseExited(event -> {
-            imageView.setFitHeight(130);
+            imageView.setScaleX(1.0);
+            imageView.setScaleY(1.0);
         });
 
 
