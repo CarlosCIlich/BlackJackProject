@@ -177,7 +177,7 @@
                      </children>
                   </VBox>
                   <TextField fx:id="txtFieldApuesta" prefWidth="100.0" promptText="EJ: 100" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Button fx:id="btnPlantarse" mnemonicParsing="false" onAction="#onPlantarse" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to bottom, #2e8b50, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;" text="Plantarse">
                            <font>
@@ -193,6 +193,18 @@
                            <font>
                               <Font size="18.0" />
                            </font>
+                        </Button>
+                        <Button fx:id="btnSonido" onAction="#onAlternarSonido" mnemonicParsing="false" prefHeight="30.0" prefWidth="35.0" style="-fx-background-color:transparent; -fx-cursor: hand;">
+                           <graphic>
+                              <ImageView fx:id="imgSonido"
+                                         fitHeight="25.0"
+                                         fitWidth="25.0"
+                                         preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons/song.png"/>
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
                      </children>
                      <padding>
