@@ -33,7 +33,6 @@ public class EvaluadorJugadas {
             }
             return ResultadoRonda.CPU_PASADA;
         }
-
         // Ambos obtienen Blackjack.
         if (userBlackJack && cpuBlackJack) {
             return ResultadoRonda.EMPATE;
