@@ -1,13 +1,13 @@
 package co.edu.univalle.poe.mvc.model;
 import java.util.LinkedList;
 
-public class Repartir {
+public class GestorCartas {
 
     private Mazo mazo;
     private LinkedList<Carta> manoUser;
     private LinkedList<Carta> manoCPU;
 
-    public Repartir(){
+    public GestorCartas(){
         mazo = new Mazo();
         manoUser = new LinkedList<Carta>();
         manoCPU = new LinkedList<Carta>();

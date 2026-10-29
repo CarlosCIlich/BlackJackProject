@@ -11,16 +11,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
-import java.util.function.UnaryOperator;
 import javafx.animation.TranslateTransition;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
-import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 
 import java.net.URL;
@@ -62,13 +59,12 @@ public class BlackJackController {
     private ImageView botonSonido;
     @FXML
     private Label lblApuestaActual;
-    @FXML
-    private ImageView imgMazo;
 
-    private Repartir repartir;
+    private GestorCartas gestorCartas;
     private GestorApuesta gestorApuesta;
     private EstadoJuego estadoJuego;
     private ResultadoRonda resultadoRonda;
+    private EvaluadorJugadas evaluadorJugadas;
 
     private MediaPlayer loseSoundPlayer;
     private MediaPlayer musicPlayer;
@@ -114,8 +110,9 @@ public class BlackJackController {
         musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         musicPlayer.play();
-        repartir = new Repartir();
+        gestorCartas = new GestorCartas();
         gestorApuesta = new GestorApuesta();
+        evaluadorJugadas = new EvaluadorJugadas();
         if (gestorApuesta.getFichas() > 10) {cambiarEstado(EstadoJuego.ESPERANDO_APUESTA);}
         else {cambiarEstado(EstadoJuego.SIN_FICHAS);}
 
@@ -210,14 +207,12 @@ public class BlackJackController {
             apuesta = Integer.parseInt(txtFieldApuesta.getText().trim());
         } catch (NumberFormatException e){
             mostrarMensaje("Entrada Invalida!", "Por favor ingrese un numero entero mayor a 0.");
-            txtFieldApuesta.clear();
             return;
         }
 
         //Validamos que el monto de la apuesta sea valido.
         if (!gestorApuesta.realizarApuesta(apuesta)){
             mostrarMensaje("Apuesta no permitida", "La apuesta debe ser multiplo de 10 y no puede superar el total de tus fichas.");
-            txtFieldApuesta.clear();
             return;
         }
 
@@ -225,34 +220,34 @@ public class BlackJackController {
         btnIniciarRonda.setDisable(true);
         lblApuestaActual.setText("APUESTA ACTUAL: " + apuesta);
 
-        repartir.nuevoMazo();
-        repartir.pedirCarta();
-        repartir.pedirCarta();
+        gestorCartas.nuevoMazo();
+        gestorCartas.pedirCarta();
+        gestorCartas.pedirCarta();
 
-        int puntaje = repartir.calcularPuntaje(repartir.getManoUser());
+        int puntaje = gestorCartas.calcularPuntaje(gestorCartas.getManoUser());
 
         lblPuntajeUsuario.setText("" + puntaje);
         lblEstadoCartasJugador.setText("" );
         lblEstadoCartasCPU.setText("" );
         lblFichas.setText("" + gestorApuesta.getFichas());
         hboxCartasJugador.getChildren().clear();
-        mostrarCartas(hboxCartasJugador, repartir.getManoUser());
+        mostrarCartas(hboxCartasJugador, gestorCartas.getManoUser());
         mostrarMensaje("Jugando", "...");
 
         cambiarEstado(EstadoJuego.TURNO_JUGADOR);
-        revisarJugada();
+        procesarJugadaUser();
 
     }
 
     @FXML
     private void onPedirCarta(){
-        repartir.pedirCarta();
-        int puntaje = repartir.calcularPuntaje(repartir.getManoUser());
+        gestorCartas.pedirCarta();
+        int puntaje = gestorCartas.calcularPuntaje(gestorCartas.getManoUser());
 
         lblPuntajeUsuario.setText("" + puntaje);
-        mostrarCartas(hboxCartasJugador, repartir.getManoUser());
+        mostrarCartas(hboxCartasJugador, gestorCartas.getManoUser());
 
-        revisarJugada();
+        procesarJugadaUser();
 
     }
 
@@ -295,22 +290,49 @@ public class BlackJackController {
         }
     }
 
-    private void revisarJugada(){
-        int puntaje = repartir.calcularPuntaje(repartir.getManoUser());
+    private void procesarJugadaUser() {
 
-        if(puntaje > 21) {
-            int apuestaPerdida = gestorApuesta.getApuesta();
-            finalizarRonda(ResultadoRonda.PERDIDA, "Te pasaste de 21!", "Perdiste tu apuesta de " + apuestaPerdida + " fichas. Puedes volver a inicar una apuesta.");
-            reproducirSonido(loseSoundPlayer);
-        } else if (puntaje == 21) {
-            mostrarMensaje("Haz llegado a 21!", "Esperando el turno de la CPU");
-            onPlantarse();
-        } else if (esVeinteYMedio(repartir.getManoUser())) {
-            mostrarMensaje("VEINTE Y MEDIO", "Este mazo solo pierde contra 21 o BLACKJACK! puedes plantarte o pedir otra carta.");
+        int puntaje = gestorCartas.calcularPuntaje(gestorCartas.getManoUser());
+        Jugadas jugada = evaluadorJugadas.evaluarJugada(gestorCartas.getManoUser(), puntaje);
+
+        switch (jugada) {
+
+            case PASARSE:
+                int apuestaPerdida = gestorApuesta.getApuesta();
+                finalizarRonda(
+                        ResultadoRonda.PERDIDA,
+                        "Te pasaste de 21!",
+                        "Perdiste tu apuesta de " + apuestaPerdida + " fichas. Puedes volver a iniciar una apuesta."
+                );
+
+                reproducirSonido(loseSoundPlayer);
+                break;
+
+            case BLACKJACK:
+                mostrarMensaje(
+                        "BLACKJACK!",
+                        "Esperando el turno de la CPU"
+                );
+            case VEINTIUNO:
+                mostrarMensaje(
+                        "Has llegado a 21!",
+                        "Esperando el turno de la CPU"
+                );
+
+                onPlantarse();
+                break;
+
+            case VEINTE_Y_MEDIO:
+                mostrarMensaje(
+                        "VEINTE Y MEDIO",
+                        "Este mazo solo pierde contra 21 o BLACKJACK! " + "Puedes plantarte o pedir otra carta."
+                );
+                break;
+
+            case NORMAL:
+                break;
         }
-
     }
-
     private void finalizarRonda(ResultadoRonda resultado, String titulo, String subtitulo){
 
         resultadoRonda = resultado;
@@ -332,34 +354,35 @@ public class BlackJackController {
 
         hboxCartasCPU.getChildren().clear();
         //La CPU pide cartas mientras no se cumpla la condicion:
-        while (repartir.calcularPuntaje(repartir.getManoCPU()) < 17){
-            repartir.pedirCartaCPU();
+        while (gestorCartas.calcularPuntaje(gestorCartas.getManoCPU()) < 17){
+            gestorCartas.pedirCartaCPU();
         }
         // Calculamos los puntajes de la CPU y del usuario
-        int puntajeCPU = repartir.calcularPuntaje(repartir.getManoCPU());
-        int puntajeUser = repartir.calcularPuntaje(repartir.getManoUser());
+        int puntajeCPU = gestorCartas.calcularPuntaje(gestorCartas.getManoCPU());
+        int puntajeUser = gestorCartas.calcularPuntaje(gestorCartas.getManoUser());
 
         lblpuntajeCPU.setText("" + puntajeCPU);
-        mostrarCartas(hboxCartasCPU, repartir.getManoCPU());
+        mostrarCartas(hboxCartasCPU, gestorCartas.getManoCPU());
 
         //evaluamos al ganador
-        evaluarGanador(puntajeUser, puntajeCPU);
+        procesarResultadoRonda(puntajeUser, puntajeCPU);
 
     }
 
-    private void evaluarGanador(int puntajeUser, int puntajeCPU){
+    private void procesarResultadoRonda(int puntajeUser, int puntajeCPU) {
 
         int apuesta = gestorApuesta.getApuesta();
 
-        boolean userBlackJack = (puntajeUser == 21 && repartir.getManoUser().size() == 2);
-        boolean cpuBlackJack = (puntajeCPU == 21 && repartir.getManoCPU().size() == 2);
+        ResultadoRonda resultado = evaluadorJugadas.evaluarGanador(
+                puntajeUser,
+                puntajeCPU,
+                gestorCartas.getManoUser(),
+                gestorCartas.getManoCPU()
+        );
 
-        boolean userVeinteYMedio = esVeinteYMedio(repartir.getManoUser());
-        boolean cpuVeinteYMedio = esVeinteYMedio(repartir.getManoCPU());
+        switch (resultado) {
 
-        // El usuario gana si la CPU se pasa de 21.
-        if (puntajeCPU > 21) {
-            if(userBlackJack) {
+            case GANADA_BLACKJACK:
                 finalizarRonda(
                         ResultadoRonda.GANADA_BLACKJACK,
                         "BLACKJACK!",
@@ -367,141 +390,37 @@ public class BlackJackController {
                                 + ((apuesta * 5) / 2) + " fichas."
                 );
                 reproducirSonido(winSoundPlayer);
-                return;
-            }
-            finalizarRonda(
-                    ResultadoRonda.GANADA_ORDINARIA,
-                    "Has ganado!",
-                    "La CPU se pasó de 21. Ganaste el doble de tu apuesta de "
-                            + apuesta + " fichas."
-            );
-            reproducirSonido(winSoundPlayer);
-            return;
-        }
+                break;
 
-        // Condicion de empate por BlackJack
-        if (userBlackJack && cpuBlackJack) {
-            finalizarRonda(
-                    ResultadoRonda.EMPATE,
-                    "Empate!",
-                    "Ambos obtuvieron Blackjack. Se devuelven tus "
-                            + apuesta + " fichas."
-            );
-            return;
-        }
+            case GANADA_ORDINARIA:
+                finalizarRonda(
+                        ResultadoRonda.GANADA_ORDINARIA,
+                        "Has ganado!",
+                        "Ganaste el doble de tu apuesta de "
+                                + apuesta + " fichas."
+                );
+                reproducirSonido(winSoundPlayer);
+                break;
 
-        // Revisamos BlackJack de CPU y del Usuario
-        if (cpuBlackJack) {
-            finalizarRonda(
-                    ResultadoRonda.PERDIDA,
-                    "Has perdido",
-                    "La CPU obtuvo Blackjack y supera tu mano."
-            );
-            reproducirSonido(loseSoundPlayer);
-            return;
-        }
-        if (userBlackJack) {
-            finalizarRonda(
-                    ResultadoRonda.GANADA_BLACKJACK,
-                    "BLACKJACK!",
-                    "Ganaste 2,5 veces tu apuesta. Se acreditan "
-                            + ((apuesta*5)/2) + " fichas."
-            );
-            reproducirSonido(winSoundPlayer);
-            return;
-        }
-        // Condicion de empate sin BlackJack
-        if (puntajeUser == 21 && puntajeCPU == 21) {
-            finalizarRonda(
-                    ResultadoRonda.EMPATE,
-                    "Empate!",
-                    "Ambos obtuvieron 21 puntos. Se devuelven tus "
-                            + apuesta + " fichas."
-            );
-            return;
-        }
+            case PERDIDA:
+                finalizarRonda(
+                        ResultadoRonda.PERDIDA,
+                        "Has perdido",
+                        "La CPU obtuvo una mano superior a la tuya."
+                );
+                reproducirSonido(loseSoundPlayer);
+                break;
 
-        // Revisamos condiciones para veinte y medio.
-        if (puntajeUser == 21 && cpuVeinteYMedio) {
-            finalizarRonda(
-                    ResultadoRonda.GANADA_ORDINARIA,
-                    "Has ganado!",
-                    "Obtuviste 21 puntos, que supera Veinte y Medio. "
-                            + "Ganaste el doble de tu apuesta."
-            );
-            reproducirSonido(winSoundPlayer);
-            return;
-        }
-        if (puntajeCPU == 21 && userVeinteYMedio) {
-            finalizarRonda(
-                    ResultadoRonda.PERDIDA,
-                    "Has perdido",
-                    "La CPU obtuvo 21 puntos, que supera Veinte y Medio."
-            );
-            reproducirSonido(loseSoundPlayer);
-            return;
-        }
-        if (userVeinteYMedio && cpuVeinteYMedio) {
-            finalizarRonda(
-                    ResultadoRonda.EMPATE,
-                    "Empate!",
-                    "Ambos obtuvieron Veinte y Medio. Se devuelven tus "
-                            + apuesta + " fichas."
-            );
-            return;
-        }
-
-        // Veinte y medio supera a cualquier mano que no sea 21 o BlackJack(revisada en los primeros casos).
-        if (userVeinteYMedio && puntajeCPU < 21) {
-            finalizarRonda(
-                    ResultadoRonda.GANADA_ORDINARIA,
-                    "VEINTE Y MEDIO!",
-                    "Veinte y Medio supera la mano de la CPU. "
-                            + "Ganaste el doble de tu apuesta de "
-                            + apuesta + " fichas."
-            );
-            reproducirSonido(winSoundPlayer);
-            return;
-        }
-        if (cpuVeinteYMedio && puntajeUser < 21) {
-            finalizarRonda(
-                    ResultadoRonda.PERDIDA,
-                    "Has perdido",
-                    "La CPU obtuvo Veinte y Medio, que supera tu mano."
-            );
-            reproducirSonido(loseSoundPlayer);
-            return;
-        }
-
-        // Revisamos puntuaciones sin jugadas especiales (Blackjack, veinte y medio)
-        if (puntajeUser > puntajeCPU) {
-            finalizarRonda(
-                    ResultadoRonda.GANADA_ORDINARIA,
-                    "Has ganado!",
-                    "Tienes " + puntajeUser + " frente a "
-                            + puntajeCPU + " de la CPU. Ganaste el doble "
-                            + "de tu apuesta de " + apuesta + " fichas."
-            );
-            reproducirSonido(winSoundPlayer);
-        } else if (puntajeCPU > puntajeUser) {
-            finalizarRonda(
-                    ResultadoRonda.PERDIDA,
-                    "Has perdido",
-                    "La CPU gana con " + puntajeCPU + " puntos."
-            );
-            reproducirSonido(loseSoundPlayer);
-
-        } else {
-            finalizarRonda(
-                    ResultadoRonda.EMPATE,
-                    "Empate!",
-                    "Ambos obtuvieron " + puntajeUser
-                            + " puntos. Se devuelven tus "
-                            + apuesta + " fichas."
-            );
+            case EMPATE:
+                finalizarRonda(
+                        ResultadoRonda.EMPATE,
+                        "Empate!",
+                        "Se devuelven tus "
+                                + apuesta + " fichas."
+                );
+                break;
         }
     }
-
     public void mostrarMensaje(String auxString1, String auxString2){
         lblmsgUsuario1.setText(auxString1);
         lblmsgUsuario2.setText(auxString2);
@@ -555,7 +474,6 @@ public class BlackJackController {
         HBox hbox = auxHbox;
 
         int cartasEnMazo = auxHbox.getChildren().size();
-        int cartasFaltantes = cartas.size() - cartasEnMazo;
         int orderAnimacion = 0;
 
         for (int i = cartasEnMazo; i < cartas.size(); i++){
@@ -635,18 +553,6 @@ public class BlackJackController {
 
         // Retornamos verdadero si la respuesta esta presente y el boton accinado es el de salir.
         return respuesta.isPresent() && respuesta.get() == btnSalir;
-
-    }
-
-    private boolean esVeinteYMedio(LinkedList<Carta> cartas){
-        if (cartas.size() > 2){
-            return false;
-        }
-
-        Carta carta1 = cartas.get(0);
-        Carta carta2 = cartas.get(1);
-
-        return (carta1.isFigura() && carta2.isCuatro()) || (carta1.isCuatro() && carta2.isFigura());
 
     }
 
