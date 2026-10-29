@@ -17,6 +17,11 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import java.util.function.UnaryOperator;
+import javafx.animation.TranslateTransition;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.util.Duration;
+import javafx.animation.PauseTransition;
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -57,6 +62,8 @@ public class BlackJackController {
     private ImageView botonSonido;
     @FXML
     private Label lblApuestaActual;
+    @FXML
+    private ImageView imgMazo;
 
     private Repartir repartir;
     private GestorApuesta gestorApuesta;
@@ -203,12 +210,14 @@ public class BlackJackController {
             apuesta = Integer.parseInt(txtFieldApuesta.getText().trim());
         } catch (NumberFormatException e){
             mostrarMensaje("Entrada Invalida!", "Por favor ingrese un numero entero mayor a 0.");
+            txtFieldApuesta.clear();
             return;
         }
 
         //Validamos que el monto de la apuesta sea valido.
         if (!gestorApuesta.realizarApuesta(apuesta)){
             mostrarMensaje("Apuesta no permitida", "La apuesta debe ser multiplo de 10 y no puede superar el total de tus fichas.");
+            txtFieldApuesta.clear();
             return;
         }
 
@@ -226,11 +235,11 @@ public class BlackJackController {
         lblEstadoCartasJugador.setText("" );
         lblEstadoCartasCPU.setText("" );
         lblFichas.setText("" + gestorApuesta.getFichas());
+        hboxCartasJugador.getChildren().clear();
         mostrarCartas(hboxCartasJugador, repartir.getManoUser());
         mostrarMensaje("Jugando", "...");
 
         cambiarEstado(EstadoJuego.TURNO_JUGADOR);
-        //Revisar.
         revisarJugada();
 
     }
@@ -321,6 +330,7 @@ public class BlackJackController {
 
     private void turnoCPU(){
 
+        hboxCartasCPU.getChildren().clear();
         //La CPU pide cartas mientras no se cumpla la condicion:
         while (repartir.calcularPuntaje(repartir.getManoCPU()) < 17){
             repartir.pedirCartaCPU();
@@ -534,12 +544,49 @@ public class BlackJackController {
 
         HBox hbox = auxHbox;
 
-        auxHbox.getChildren().clear();
+        int cartasEnMazo = auxHbox.getChildren().size();
+        int cartasFaltantes = cartas.size() - cartasEnMazo;
+        int orderAnimacion = 0;
 
-        for(Carta carta: cartas) {
+        for (int i = cartasEnMazo; i < cartas.size(); i++){
+            Carta carta = cartas.get(i);
             ImageView imgCarta = crearImagenCarta(carta);
+
+            double deltaX = -180.0;
+            // Determinamos el deltaY dependiendo de si la carta parte del hboxJugador o del hboxCPU.
+            double deltaY = (auxHbox == hboxCartasJugador) ? -140.0 : 140.0;
+
+            //Enviamos la carta a la posicion del "mazo" y ponemos su opacidad en 0.0 (desde aqui comenzara la animacion).
+            imgCarta.setTranslateX(deltaX);
+            imgCarta.setTranslateY(deltaY);
+            imgCarta.setOpacity(0.0);
+
             auxHbox.getChildren().add(imgCarta);
+
+            //definimos un movimiento de translacion que devuelve las cartas a su posicion original (layout asignado por la Hbox al momento de agregar la imagen)
+            PauseTransition pausa = getPausa(imgCarta, orderAnimacion);
+            pausa.play();
+            orderAnimacion++;
+
         }
+    }
+
+    private PauseTransition getPausa(ImageView imgCarta, int orderAnimacion) {
+        TranslateTransition movimiento = new TranslateTransition(Duration.millis(400), imgCarta);
+        movimiento.setToX(0);
+        movimiento.setToY(0);
+
+        // Definimos una transicion de "Fade" para que la carta vuelva a ser visible.
+        FadeTransition aparicionCarta = new FadeTransition(Duration.millis(400), imgCarta);
+        aparicionCarta.setToValue(1.0);
+
+        // Asociamos ambas transiciones mediante una ParallelTransition.
+        ParallelTransition animacion = new ParallelTransition(movimiento, aparicionCarta);
+
+        // Creamos una pausa para que las cartas tengan un delay el momento de aparecer en la mano.
+        PauseTransition pausa = new PauseTransition(Duration.millis(orderAnimacion * 250));
+        pausa.setOnFinished(event -> animacion.play());
+        return pausa;
     }
 
     @FXML
