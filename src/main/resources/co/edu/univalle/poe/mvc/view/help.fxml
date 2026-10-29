@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" spacing="15"
+      prefWidth="520" prefHeight="480"
+      style="-fx-background-color: #143520;">
+
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <children>
+        <Label text="REGLAS DEL BLACKJACK" style="-fx-text-fill: #E0BB62;-fx-font-size: 24px;-fx-font-weight: bold;"/>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: #143520; -fx-background-color: #143520;">
+            <content>
+                <VBox spacing="12" style="-fx-background-color: #143520;">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <children>
+                        <Label text="OBJETIVO"
+                               style="-fx-text-fill: #E0BB62;
+                                      -fx-font-size: 17px;
+                                      -fx-font-weight: bold;"/>
+                        <Label text="Acércate a 21 puntos sin superar ese valor."
+                               wrapText="true"
+                               style="-fx-text-fill: white;"/>
+
+                        <Label text="VALOR DE LAS CARTAS"
+                               style="-fx-text-fill: #E0BB62;
+                                      -fx-font-size: 17px;
+                                      -fx-font-weight: bold;"/>
+                        <Label text="• Cartas del 2 al 10: su valor numérico.&#10;• J, Q y K: 10 puntos.&#10;• As: puede valer 1 u 11, según las reglas implementadas."
+                               wrapText="true"
+                               style="-fx-text-fill: white;"/>
+
+                        <Label text="¿CÓMO JUGAR?"
+                               style="-fx-text-fill: #E0BB62;
+                                      -fx-font-size: 17px;
+                                      -fx-font-weight: bold;"/>
+                        <Label text="1. Ingresa una apuesta válida.&#10;2. Pulsa Iniciar ronda.&#10;3. Usa Pedir carta para recibir otra carta.&#10;4. Usa Plantarse para terminar tu turno y dejar jugar a la CPU."
+                               wrapText="true"
+                               style="-fx-text-fill: white;"/>
+
+                        <Label text="RESULTADOS"
+                               style="-fx-text-fill: #E0BB62;
+                                      -fx-font-size: 17px;
+                                      -fx-font-weight: bold;"/>
+                        <Label text="Si superas 21, pierdes. Si te plantas, se compara tu puntaje con el de la CPU. El resultado determina si ganas, pierdes o empatas."
+                               wrapText="true"
+                               style="-fx-text-fill: white;"/>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</VBox>

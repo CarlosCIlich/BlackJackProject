@@ -2,15 +2,18 @@ package co.edu.univalle.poe.mvc.controller;
 
 import co.edu.univalle.poe.mvc.model.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 
 import java.net.URL;
@@ -131,6 +134,30 @@ public class BlackJackController {
         btnCerrar.setOnMouseExited(event -> {
             btnCerrar.setStyle("-fx-background-color: linear-gradient(to bottom, #9C0000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
         });
+    }
+
+    @FXML
+    private void onAbrirAyuda() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/co/edu/univalle/poe/mvc/view/help.fxml"
+                    )
+            );
+
+            Parent root = loader.load();
+
+            Stage ventanaAyuda = new Stage();
+            ventanaAyuda.setTitle("Ayuda");
+            Image iconohelp = new Image(getClass().getResourceAsStream("/co/edu/univalle/poe/mvc/images/icons/help.png"));
+            ventanaAyuda.getIcons().add(iconohelp);
+            ventanaAyuda.setScene(new Scene(root));
+            ventanaAyuda.setResizable(false);
+            ventanaAyuda.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
