@@ -29,7 +29,7 @@ public class EvaluadorJugadas {
         // La CPU se pasa de 21.
         if (puntajeCPU > 21) {
             if (userBlackJack) {
-                return ResultadoRonda.GANADA_BLACKJACK;
+                return ResultadoRonda.CPU_PASADA;
             }
             return ResultadoRonda.GANADA_ORDINARIA;
         }

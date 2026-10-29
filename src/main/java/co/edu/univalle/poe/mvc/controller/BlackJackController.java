@@ -392,6 +392,16 @@ public class BlackJackController {
                 reproducirSonido(winSoundPlayer);
                 break;
 
+            case CPU_PASADA:
+                finalizarRonda(
+                        ResultadoRonda.GANADA_ORDINARIA,
+                        "La CPU se paso de 21!",
+                        "Ganaste 2 veces tu apuesta. Se acreditan "
+                                + (apuesta * 2) + " fichas."
+                );
+                reproducirSonido(winSoundPlayer);
+                break;
+
             case GANADA_ORDINARIA:
                 finalizarRonda(
                         ResultadoRonda.GANADA_ORDINARIA,
