@@ -5,11 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -49,8 +49,6 @@ public class BlackJackController {
     private HBox hboxCartasCPU;
     @FXML
     private Button btnAyuda;
-    @FXML
-    private ImageView imgSonido;
 
     private Repartir repartir;
     private GestorApuesta gestorApuesta;
@@ -65,22 +63,6 @@ public class BlackJackController {
         reproductor.stop();
         reproductor.seek(Duration.ZERO);
         reproductor.play();
-    }
-
-    @FXML
-    private void onAlternarSonido() {
-        boolean estaSilenciado = musicPlayer.isMute();
-        musicPlayer.setMute(!estaSilenciado);
-        String rutaImagen;
-
-        if (estaSilenciado) {
-            rutaImagen = "/co/edu/univalle/poe/mvc/images/icons/song.png";
-        } else {
-            rutaImagen = "/co/edu/univalle/poe/mvc/images/icons/muted.png";
-        }
-        Image imagenmusic = new Image(getClass().getResourceAsStream(rutaImagen));
-
-        imgSonido.setImage(imagenmusic);
     }
 
     @FXML
@@ -105,7 +87,9 @@ public class BlackJackController {
         cambiarEstado(EstadoJuego.ESPERANDO_APUESTA);
 
         btnIniciarRonda.setOnMouseEntered(event -> {
-            btnIniciarRonda.setStyle("-fx-background-color: linear-gradient(to bottom, #3C8C79, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+            btnIniciarRonda.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #3C8C79, #2B6557); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
         });
 
         btnIniciarRonda.setOnMouseExited(event -> {
@@ -113,7 +97,9 @@ public class BlackJackController {
         });
 
         btnPlantarse.setOnMouseEntered(event -> {
-            btnPlantarse.setStyle("-fx-background-color: linear-gradient(to bottom, #3CB568, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+            btnPlantarse.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #3CB568, #0d4822); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
         });
 
         btnPlantarse.setOnMouseExited(event -> {
@@ -131,14 +117,18 @@ public class BlackJackController {
         });
 
         btnAyuda.setOnMouseEntered(event -> {
-            btnAyuda.setStyle("-fx-background-color: linear-gradient(to bottom, #36CF7D, #1D7044); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+            btnAyuda.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #36CF7D, #1D7044); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
         });
         btnAyuda.setOnMouseExited(event -> {
             btnAyuda.setStyle("-fx-background-color: linear-gradient(to bottom, #27965B, #1D7044); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
         });
 
         btnCerrar.setOnMouseEntered(event -> {
-            btnCerrar.setStyle("-fx-background-color: linear-gradient(to bottom, #D60000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;");
+            btnCerrar.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, #D60000, #6D0000); -fx-text-fill: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 15px; -fx-font-weight: bold; -fx-border-color: #d4af37; -fx-border-width: 2px; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-cursor: hand;"
+            );
         });
 
         btnCerrar.setOnMouseExited(event -> {
@@ -150,7 +140,9 @@ public class BlackJackController {
     private void onAbrirAyuda() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/co/edu/univalle/poe/mvc/view/help.fxml")
+                    getClass().getResource(
+                            "/co/edu/univalle/poe/mvc/view/help.fxml"
+                    )
             );
 
             Parent root = loader.load();
