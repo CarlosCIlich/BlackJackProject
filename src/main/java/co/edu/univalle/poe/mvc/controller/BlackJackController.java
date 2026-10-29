@@ -496,6 +496,7 @@ public class BlackJackController {
             imageView.setFitHeight(130);
         });
 
+
         String mensaje = "";
 
         if (nombreArchivo.startsWith("J")) {
