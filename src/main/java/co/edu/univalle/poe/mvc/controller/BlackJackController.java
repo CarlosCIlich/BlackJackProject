@@ -359,6 +359,16 @@ public class BlackJackController {
 
         // El usuario gana si la CPU se pasa de 21.
         if (puntajeCPU > 21) {
+            if(userBlackJack) {
+                finalizarRonda(
+                        ResultadoRonda.GANADA_BLACKJACK,
+                        "BLACKJACK!",
+                        "Ganaste 2,5 veces tu apuesta. Se acreditan "
+                                + ((apuesta * 5) / 2) + " fichas."
+                );
+                reproducirSonido(winSoundPlayer);
+                return;
+            }
             finalizarRonda(
                     ResultadoRonda.GANADA_ORDINARIA,
                     "Has ganado!",
