@@ -69,6 +69,7 @@ public class BlackJackController {
     private MediaPlayer loseSoundPlayer;
     private MediaPlayer musicPlayer;
     private MediaPlayer winSoundPlayer;
+    private MediaPlayer empateSoundPlayer;
 
     private void reproducirSonido(MediaPlayer reproductor) {
         reproductor.stop();
@@ -98,14 +99,17 @@ public class BlackJackController {
         URL musicURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/Casino Background Music.mp3");
         URL perdisteURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/perdiste.mp3");
         URL ganasteURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/ganaste.mp3");
+        URL empateURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/empate.mp3");
 
         Media music = new Media(musicURL.toExternalForm());
         Media musicperdiste = new Media(perdisteURL.toExternalForm());
         Media musicganaste = new Media(ganasteURL.toExternalForm());
+        Media musicempate = new Media(empateURL.toExternalForm());
 
         musicPlayer = new MediaPlayer(music);
         loseSoundPlayer = new MediaPlayer(musicperdiste);
         winSoundPlayer = new MediaPlayer(musicganaste);
+        empateSoundPlayer = new MediaPlayer(musicempate);
 
         musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
@@ -223,7 +227,6 @@ public class BlackJackController {
         gestorCartas.nuevoMazo();
         gestorCartas.pedirCarta();
         gestorCartas.pedirCarta();
-
         int puntaje = gestorCartas.calcularPuntaje(gestorCartas.getManoUser());
 
         lblPuntajeUsuario.setText("" + puntaje);
@@ -428,6 +431,7 @@ public class BlackJackController {
                         "Se devuelven tus "
                                 + apuesta + " fichas."
                 );
+                reproducirSonido(empateSoundPlayer);
                 break;
         }
     }
