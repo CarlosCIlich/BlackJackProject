@@ -49,6 +49,8 @@ public class BlackJackController {
     private HBox hboxCartasCPU;
     @FXML
     private Button btnAyuda;
+    @FXML
+    private Label lblApuestaActual;
 
     private Repartir repartir;
     private GestorApuesta gestorApuesta;
@@ -229,6 +231,7 @@ public class BlackJackController {
                 btnIniciarRonda.setDisable(true);
                 break;
             case ESPERANDO_APUESTA:
+                txtFieldApuesta.clear();
                 txtFieldApuesta.setDisable(false);
                 btnPlantarse.setDisable(true);
                 btnPedirCarta.setDisable(true);

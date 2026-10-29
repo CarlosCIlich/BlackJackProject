@@ -24,4 +24,8 @@ public class Carta {
         return valor+palo;
     }
 
+    public boolean isFigura(){
+        return (valor.equals("J") || valor.equals("K"));
+    }
+
 }
