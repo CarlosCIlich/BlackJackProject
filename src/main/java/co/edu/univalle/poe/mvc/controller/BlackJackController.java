@@ -4,11 +4,16 @@ import co.edu.univalle.poe.mvc.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -47,9 +52,33 @@ public class BlackJackController {
     private EstadoJuego estadoJuego;
     private ResultadoRonda resultadoRonda;
 
+    private MediaPlayer loseSoundPlayer;
+    private MediaPlayer musicPlayer;
+    private MediaPlayer winSoundPlayer;
+
+    private void reproducirSonido(MediaPlayer reproductor) {
+        reproductor.stop();
+        reproductor.seek(Duration.ZERO);
+        reproductor.play();
+    }
 
     @FXML
     private void initialize(){
+        URL musicURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/Casino Background Music.mp3");
+        URL perdisteURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/perdiste.mp3");
+        URL ganasteURL = getClass().getResource("/co/edu/univalle/poe/mvc/audios/ganaste.mp3");
+
+        Media music = new Media(musicURL.toExternalForm());
+        Media musicperdiste = new Media(perdisteURL.toExternalForm());
+        Media musicganaste = new Media(ganasteURL.toExternalForm());
+
+        musicPlayer = new MediaPlayer(music);
+        loseSoundPlayer = new MediaPlayer(musicperdiste);
+        winSoundPlayer = new MediaPlayer(musicganaste);
+
+        musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        musicPlayer.play();
         repartir = new Repartir();
         gestorApuesta = new GestorApuesta();
         cambiarEstado(EstadoJuego.ESPERANDO_APUESTA);
@@ -199,7 +228,7 @@ public class BlackJackController {
             int apuestaPerdida = gestorApuesta.getApuesta();
 
             finalizarRonda(ResultadoRonda.PERDIDA, "Te pasaste de 21!", "Perdiste tu apuesta de " + apuestaPerdida + " fichas. Puedes volver a inicar una apuesta.");
-
+            reproducirSonido(loseSoundPlayer);
         } else if (puntaje == 21) {
             mostrarMensaje("Haz llegado a 21!", "Esperando el turno de la CPU");
             onPlantarse();
@@ -247,19 +276,23 @@ public class BlackJackController {
         if(puntajeCPU > 21){
             if(puntajeUser == 21 && repartir.getManoUser().size() == 2){
                 finalizarRonda(ResultadoRonda.GANADA_BLACKJACK, "BLACKJACK! La CPU se pasó de 21.", "Ganaste 2.5 sobre tu apuesta de " + apuesta + " fichas.");
+                reproducirSonido(winSoundPlayer);
             } else {
                 finalizarRonda(ResultadoRonda.GANADA_ORDINARIA, "Has ganado!", "La CPU se paso de 21. Ganaste el doble de tu apuesta en fichas.");
+                reproducirSonido(winSoundPlayer);
             }
         } else if (puntajeUser > puntajeCPU) {
             if(puntajeUser == 21 && repartir.getManoUser().size() == 2) {
                 finalizarRonda(ResultadoRonda.GANADA_BLACKJACK, "BLACKJACK!", "Ganaste 2.5 sobre tu apuesta de " + apuesta + " fichas.");
+                reproducirSonido(winSoundPlayer);
             } else {
                 finalizarRonda(ResultadoRonda.GANADA_ORDINARIA, "Has ganado!", "Ganaste el doble de tu apuesta en fichas.");
+                reproducirSonido(winSoundPlayer);
             }
 
         } else if (puntajeCPU > puntajeUser) {
             finalizarRonda(ResultadoRonda.PERDIDA, "Has perdido", "La CPU gana con " + puntajeCPU);
-
+            reproducirSonido(loseSoundPlayer);
         } else {
             finalizarRonda(ResultadoRonda.EMPATE, "Empate!", "Se te han devuelto tus " + apuesta + " fichas.");
         }

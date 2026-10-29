@@ -1,7 +1,7 @@
 module co.edu.univalle.poe.mvc {
     requires javafx.controls;
     requires javafx.fxml;
-
+    requires javafx.media;
 
     opens co.edu.univalle.poe.mvc to javafx.fxml;
     exports co.edu.univalle.poe.mvc;
