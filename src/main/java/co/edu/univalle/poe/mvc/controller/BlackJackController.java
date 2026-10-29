@@ -307,6 +307,7 @@ public class BlackJackController {
         resultadoRonda = resultado;
         gestorApuesta.entregarGanancias(resultado);
         lblFichas.setText("" + gestorApuesta.getFichas());
+        lblApuestaActual.setText("APUESTA ACTUAL: 0");
 
         if(gestorApuesta.getFichas() < 10){
             cambiarEstado(EstadoJuego.SIN_FICHAS);
@@ -319,6 +320,7 @@ public class BlackJackController {
     }
 
     private void turnoCPU(){
+
         //La CPU pide cartas mientras no se cumpla la condicion:
         while (repartir.calcularPuntaje(repartir.getManoCPU()) < 17){
             repartir.pedirCartaCPU();
@@ -605,4 +607,5 @@ public class BlackJackController {
 
         lblPuntaje.setText("--");
     }
+
 }

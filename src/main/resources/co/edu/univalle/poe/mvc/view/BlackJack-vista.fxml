@@ -103,7 +103,7 @@
                      <children>
                         <VBox alignment="CENTER" maxWidth="380.0" prefWidth="380.0">
                            <children>
-                              <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imgMazo" fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/cards/Cards.png" />
                                  </image>
