@@ -59,7 +59,7 @@ REGLAS Y CARACTERÍSTICAS PRINCIPALES
   a cualquier puntaje menor a 21.
 
 
-3. LÓGICA DE LA BANCA (CPU)
+3. LÓGICA DE LA CPU
 Durante su turno, la CPU pide cartas de forma automática mientras su puntaje sea menor a 17 y se planta al
 alcanzar 17 o más puntos.
 
