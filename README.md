@@ -6,7 +6,7 @@ utilizando JavaFX bajo el patrón de arquitectura Modelo-Vista-Controlador (MVC)
 AUTORES
 
 - Carlos Anibal Ilich Ceron del Castillo - Código: 202537097
-- Nombre Completo Integrante 2 - Código: Código de estudiante
+- Juan Ricardo Riaños Horta - Código: 202537573
 
 
 Institución: Universidad del Valle
