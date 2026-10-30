@@ -3,9 +3,7 @@ BLACKJACK
 Aplicación de escritorio del juego de cartas Blackjack, desarrollada en Java 
 utilizando JavaFX bajo el patrón de arquitectura Modelo-Vista-Controlador (MVC).
 
-==================================================
 AUTORES
-==================================================
 
 - Carlos Anibal Ilich Ceron del Castillo - Código: 202537097
 - Nombre Completo Integrante 2 - Código: Código de estudiante
@@ -14,17 +12,13 @@ AUTORES
 Institución: Universidad del Valle
 Paquete principal: co.edu.univalle.poe.mvc
 
-==================================================
 REQUISITOS Y TECNOLOGÍAS UTILIZADAS
-==================================================
 
 - SDK de Java: Amazon Corretto versión 21.0.13.
 - Interfaz gráfica y multimedia: JavaFX (javafx.fxml, javafx.scene, javafx.animation, javafx.scene.media).
 - IDE recomendado: IntelliJ IDEA.
 
-
 ESTRUCTURA DEL PROYECTO (ARQUITECTURA MVC)
-==================================================
 
 El código está organizado separando la lógica de negocio de la interfaz de usuario en los siguientes paquetes:
 1. CONTROLADOR (co.edu.univalle.poe.mvc.controller)
@@ -51,10 +45,7 @@ El código está organizado separando la lógica de negocio de la interfaz de us
 - Archivos FXML para el tablero principal y la ventana emergente de ayuda (BlackJack-vista.fxml y help.fxml).
 - Recursos gráficos para las 52 cartas, íconos de interfaz y pistas de audio para ambientación de casino, victoria y derrota.
 
-
-==================================================
 REGLAS Y CARACTERÍSTICAS PRINCIPALES
-==================================================
 
 1. SISTEMA DE APUESTAS
 - El jugador inicia con 1000 fichas.
@@ -79,9 +70,7 @@ alcanzar 17 o más puntos.
 - Control de silencio para la música de fondo.
 
 
-==================================================
 EJECUCIÓN DEL PROYECTO
-==================================================
 
 1. Clonar o abrir el proyecto en IntelliJ IDEA.
 2. Configurar en la estructura del proyecto (Project Structure > Project SDK) el SDK Amazon Corretto 21.0.13.
