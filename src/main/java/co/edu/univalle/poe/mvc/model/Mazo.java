@@ -3,6 +3,11 @@ package co.edu.univalle.poe.mvc.model;
 import java.util.Arrays;
 import java.util.Collections;
 
+/* CLASE Mazo.
+Crea y mezcla aleatoriamente las 52 cartas de los 4 palos (P, C, D, T) y las
+reparte secuencialmente, sin repetir.
+ */
+
 public class Mazo {
 
     private Carta[] cartas;
@@ -28,10 +33,10 @@ public class Mazo {
                 indice++;
             }
         }
+
     }
 
     private void mezclar(){
-
         Collections.shuffle(Arrays.asList(cartas));
     }
 

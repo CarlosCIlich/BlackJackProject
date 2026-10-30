@@ -1,6 +1,8 @@
 package co.edu.univalle.poe.mvc.model;
 
-// Representa una carta individual
+// CLASE Carta.
+// Representa una carta de la baraja con su respectivo valor y
+// palo, permitiendo identificar si es una figura (J, Q, K) o un 4.
 
 public class Carta {
 

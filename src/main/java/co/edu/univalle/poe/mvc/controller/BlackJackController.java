@@ -24,6 +24,12 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.Optional;
 
+/* CLASE BlackJackController.
+Gestiona los eventos de la interfaz gráfica, controla el cambio de estados durante
+la partida, reproduce la música de fondo y los efectos de sonido, despliega la ventana de
+ayuda y ejecuta las animaciones al repartir las cartas.
+*/
+
 public class BlackJackController {
     @FXML
     private Button btnCerrar;
@@ -249,7 +255,6 @@ public class BlackJackController {
 
         lblPuntajeUsuario.setText("" + puntaje);
         mostrarCartas(hboxCartasJugador, gestorCartas.getManoUser());
-
         procesarJugadaUser();
 
     }

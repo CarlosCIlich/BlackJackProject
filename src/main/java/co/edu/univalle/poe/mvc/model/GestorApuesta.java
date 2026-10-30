@@ -1,5 +1,9 @@
 package co.edu.univalle.poe.mvc.model;
 
+/* CLASE GestorApuesta.
+Controla el saldo del jugador (iniciando en 1000 fichas), valida que las
+apuestas sean múltiplos de 10 y entrega las ganancias al cierre de cada ronda.
+ */
 public class GestorApuesta {
 
     private int fichas;

@@ -1,6 +1,12 @@
 package co.edu.univalle.poe.mvc.model;
 import java.util.LinkedList;
 
+/* CLASE GestorCartas.
+Administra el mazo y las manos de cartas del jugador y de la CPU
+además de calcular el puntaje ajustando dinámicamente el valor del As (de 11 a 1)
+cuando la mano supera los 21 puntos.
+ */
+
 public class GestorCartas {
 
     private Mazo mazo;

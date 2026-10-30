@@ -2,6 +2,10 @@ package co.edu.univalle.poe.mvc.model;
 
 import java.util.LinkedList;
 
+/* CLASE EvaluadorJugadas
+Evalúa la mano en curso y determina el ganador de la ronda contemplando jugadas especiales
+como Blackjack y Veinte y Medio.
+ */
 public class EvaluadorJugadas {
 
     public boolean esVeinteYMedio(LinkedList<Carta> cartas) {
